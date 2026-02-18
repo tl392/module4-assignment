@@ -78,7 +78,6 @@ module4-assignment/
 ├── .coveragerc
 └── README.md
 
-
 ------------------------------------------------------------------------
 
 ## Setup Instructions
