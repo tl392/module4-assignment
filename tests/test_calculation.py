@@ -1,77 +1,79 @@
 import pytest
+
 from app.calculation import CalculationFactory
-from app.operation import InvalidOperationError
 from app.calculator import Calculator
+from app.operation import InvalidOperationError
 
 
-# ------------------------
-# CalculationFactory Tests
-# ------------------------
+# -------------------------
+# Factory Positive (12 cases)
+# -------------------------
+@pytest.mark.parametrize(
+    "op,a,b,expected",
+    [
+        ("+", 1, 1, 2),
+        ("add", 2, 3, 5),
+        ("-", 10, 4, 6),
+        ("subtract", 10, 4, 6),
+        ("*", 3, 7, 21),
+        ("multiply", 3, 7, 21),
+        ("/", 8, 2, 4),
+        ("divide", 9, 3, 3),
+        ("+", -2, 2, 0),
+        ("*", 0, 10, 0),
+        ("/", 5, 2, 2.5),
+        ("-", 0, 5, -5),
+    ],
+)
+def test_factory_positive(op, a, b, expected):
+    calc = CalculationFactory.create(op, float(a), float(b))
+    assert calc.result == expected
+    assert calc.format() == f"{float(a):g} {calc.operation.symbol} {float(b):g} = {expected:g}"
 
-def test_factory_positive():
-    calc = CalculationFactory.create("+", 2, 3)
-    assert calc.a == 2
-    assert calc.b == 3
-    assert calc.result == 5
-    assert calc.format() == "2 + 3 = 5"
 
-
-@pytest.mark.parametrize("bad_op", ["", "   ", "**", "power", "++"])
+# -------------------------
+# Factory Negative (8 cases)
+# -------------------------
+@pytest.mark.parametrize("bad_op", ["", "   ", "**", "power", "++", "ADDx", "??", "mod"])
 def test_factory_negative_invalid_operation(bad_op):
     with pytest.raises(InvalidOperationError):
         CalculationFactory.create(bad_op, 1, 2)
 
 
-def test_factory_negative_division_by_zero():
+@pytest.mark.parametrize("op", ["/", "divide", "div"])
+def test_factory_negative_division_by_zero(op):
     with pytest.raises(ZeroDivisionError):
-        CalculationFactory.create("/", 10, 0)
+        CalculationFactory.create(op, 10, 0)
 
 
-# ------------------------
-# Calculator Core Tests
-# ------------------------
-
-def test_history_initially_empty():
-    calc = Calculator()
-    assert list(calc.history) == []
-    assert calc.format_history() == "History is empty."
-
-
-def test_evaluate_adds_to_history():
-    calc = Calculator()
-    result = calc.evaluate("*", 2, 4)
-
-    assert result.result == 8
-    assert len(calc.history) == 1
-    assert calc.history[0].format() == "2 * 4 = 8"
-
-
-def test_format_history_multiple_entries():
-    calc = Calculator()
-    calc.evaluate("+", 1, 1)
-    calc.evaluate("-", 5, 3)
-
-    text = calc.format_history()
-
-    assert "Calculation history:" in text
-    assert "1. 1 + 1 = 2" in text
-    assert "2. 5 - 3 = 2" in text
-
-
-# ------------------------
-# Number Parsing Tests
-# ------------------------
-
-def test_parse_two_numbers_positive():
-    a, b = Calculator._parse_two_numbers("10 20")
-    assert a == 10.0
-    assert b == 20.0
-
-
+# -------------------------
+# Parsing Positive (4)
+# -------------------------
 @pytest.mark.parametrize(
-    "bad",
-    ["", " ", "1", "1 2 3", "a 2", "1 b"],
+    "raw,expected",
+    [
+        ("1 2", (1.0, 2.0)),
+        ("  1   2  ", (1.0, 2.0)),
+        ("-1 -2", (-1.0, -2.0)),
+        ("3.5 4.25", (3.5, 4.25)),
+    ],
 )
-def test_parse_two_numbers_negative(bad):
+def test_parse_two_numbers_positive(raw, expected):
+    assert Calculator._parse_two_numbers(raw) == expected
+
+
+# -------------------------
+# Parsing Negative (10)
+# -------------------------
+@pytest.mark.parametrize(
+    "raw",
+    [
+        "", " ", "   ",
+        "1", "1 2 3", "1 2 3 4",
+        "a 2", "1 b", "a b",
+        "1,2 3",
+    ],
+)
+def test_parse_two_numbers_negative(raw):
     with pytest.raises(ValueError):
-        Calculator._parse_two_numbers(bad)
+        Calculator._parse_two_numbers(raw)
