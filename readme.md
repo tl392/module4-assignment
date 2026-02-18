@@ -51,12 +51,33 @@ calculation 3. Prints the result 4. Loops again until exit
 ------------------------------------------------------------------------
 
 ## Project Structure
+module4-assignment/
+│
+├── app/
+│   ├── __init__.py
+│   ├── calculator/
+│   │   └── __init__.py
+│   ├── calculation/
+│   │   └── __init__.py
+│   └── operation/
+│       └── __init__.py
+│
+├── tests/
+│   ├── test_operations.py
+│   ├── test_calculation.py
+│   └── test_repl.py
+│
+├── .github/
+│   └── workflows/
+│       └── python-app.yml
+│
+├── main.py
+├── requirements.txt
+├── pytest.ini
+├── .gitignore
+├── .coveragerc
+└── README.md
 
-module4-assignment/ │ ├── app/ │ ├── **init**.py │ ├── calculator/ │ │
-└── **init**.py │ ├── calculation/ │ │ └── **init**.py │ └── operation/
-│ └── **init**.py │ ├── tests/ │ ├── test_operations.py │ ├──
-test_calculation.py │ └── test_repl.py │ ├── main.py ├──
-requirements.txt ├── pytest.ini └── README.md
 
 ------------------------------------------------------------------------
 
