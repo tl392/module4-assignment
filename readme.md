@@ -51,6 +51,7 @@ calculation 3. Prints the result 4. Loops again until exit
 ------------------------------------------------------------------------
 
 ## Project Structure
+```
 module4-assignment/
 │
 ├── app/
@@ -77,7 +78,7 @@ module4-assignment/
 ├── .gitignore
 ├── .coveragerc
 └── README.md
-
+```
 ------------------------------------------------------------------------
 
 ## Setup Instructions
