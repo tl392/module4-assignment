@@ -155,6 +155,41 @@ The workflow file is located at:
 Every push or pull request automatically triggers testing.
 
 ------------------------------------------------------------------------
+## Git Workflow
+
+### Initialize Repository
+
+git init\
+git branch -M main
+
+### Add Remote
+
+git remote add origin git@github.com:tl392/module4-assignment.git
+
+### First Commit
+
+git add .\
+git commit -m "Initial commit - CLI Calculator with tests"\
+git push -u origin main
+
+### Daily Workflow
+
+git add .\
+git commit -m "Describe your change"\
+git push
+
+### Pull Latest Changes
+
+git pull\
+or\
+git pull --rebase
+
+### Create Feature Branch
+
+git checkout -b feature/new-feature\
+git push origin feature/new-feature
+
+------------------------------------------------------------------------
 
 ## Learning Outcomes
 
