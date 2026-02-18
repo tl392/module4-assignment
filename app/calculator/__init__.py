@@ -134,8 +134,7 @@ class Calculator:
 
         input_fn/output_fn are injectable to support unit testing.
         """
-        initial_op_string="""
-        Welcome to Calculator !!!
+        initial_op_string="""Welcome to Calculator !!!
         Here you are able to do basic arithmetic operation (+, -, *, /) with simple steps.
         At anytime to to quit press Q or quit or exit
         Use history command to see your all calculator history

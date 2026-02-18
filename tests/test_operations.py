@@ -1,5 +1,4 @@
 import pytest
-
 from app.operation import OPERATIONS
 
 
@@ -7,22 +6,19 @@ from app.operation import OPERATIONS
     "op,a,b,expected",
     [
         ("+", 2, 3, 5),
+        ("add", 2, 3, 5),
         ("-", 10, 4, 6),
+        ("subtract", 10, 4, 6),
         ("*", 3, 7, 21),
+        ("multiply", 3, 7, 21),
         ("/", 8, 2, 4),
-        ("add", 1, 2, 3),
-        ("subtract", 5, 2, 3),
-        ("multiply", 2, 5, 10),
-        ("divide", 9, 3, 3),
+        ("divide", 8, 2, 4),
     ],
 )
-def test_operations_execute(op, a, b, expected):
-    """Verify each operation produces the expected result."""
-    result = OPERATIONS[op].execute(a, b)
-    assert result == expected
+def test_operations_positive(op, a, b, expected):
+    assert OPERATIONS[op].execute(a, b) == expected
 
 
-def test_divide_by_zero_raises():
-    """Verify division by zero raises ZeroDivisionError."""
+def test_division_by_zero_negative():
     with pytest.raises(ZeroDivisionError):
-        OPERATIONS["/"].execute(1.0, 0.0)
+        OPERATIONS["/"].execute(10, 0)

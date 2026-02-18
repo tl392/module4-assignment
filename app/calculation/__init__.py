@@ -1,9 +1,6 @@
 from __future__ import annotations
-
 from dataclasses import dataclass
-
 from app.operation import InvalidOperationError, OPERATIONS, Operation
-
 
 @dataclass(frozen=True)
 class Calculation:
